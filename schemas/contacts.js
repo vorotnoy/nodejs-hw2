@@ -1,9 +1,14 @@
-const Joi = require('joi')
+const Joi = require("joi");
+const { phonePattern } = require("../models/contacts");
 
 const contactsAddSchema = Joi.object({
-    name:Joi.string().required().label('name'),
-    email:Joi.string().email().required().label('email'),
-    phone:Joi.string().trim().pattern(/^\(\d{3}\)\s\d{3}-\d{4}$/).required().label('phone')
-})
+  name: Joi.string().required().label("name"),
+  email: Joi.string().email().required().label("email"),
+  phone: Joi.string().trim().required().label("phone"),
+  favorite: Joi.boolean().required().label("favotite"),
+});
+const contactsUppdateFavoriteSchema = Joi.object({
+  favorite: Joi.boolean().required(),
+});
 
-module.exports = contactsAddSchema;
+module.exports = { contactsAddSchema, contactsUppdateFavoriteSchema };
