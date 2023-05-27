@@ -1,10 +1,10 @@
 const { ctrlWrapper } = require("../utils/index");
 const contactChange = require("../models/operation");
 const { HttpError } = require("../helper");
-const {Contacts} = require('../models/')
+const { Contacts } = require("../models/");
 
 const getList = async (req, res, next) => {
-const contacts = await Contacts.find();
+  const contacts = await Contacts.find();
   res.json(contacts);
 };
 
@@ -28,26 +28,26 @@ const delContacts = async (req, res, next) => {
   if (!removeContacts) {
     throw HttpError(404);
   }
-  res.json({"message": "contact deleted"});
+  res.json({ message: "contact deleted" });
 };
 
 const updateContacts = async (req, res, next) => {
   const { id } = req.params;
-  const contact = await Contacts.findByIdAndUpdate(id, req.body, {new:true});
+  const contact = await Contacts.findByIdAndUpdate(id, req.body, { new: true }, 'favorite');
   if (!contact) {
     throw HttpError(404);
   }
   res.json(contact);
 };
-const updateFavorite = async (req, res, next)=>{
+
+const updateFavorite = async (req, res, next) => {
   const { id } = req.params;
-  const contact = await Contacts.findByIdAndUpdate(id, req.body, {new:true});
+  const contact = await Contacts.findByIdAndUpdate(id, req.body, { new: true });
   if (!contact) {
     throw HttpError(404);
   }
   res.json(contact);
-}
-
+};
 
 module.exports = {
   getList: ctrlWrapper(getList),
