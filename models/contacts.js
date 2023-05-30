@@ -22,6 +22,11 @@ const contactsSchema = Schema({
     required: true,
     default: false,
   },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'user',
+    required:true,
+  }
 });
 
 contactsSchema.post("save", handleMongooseError);

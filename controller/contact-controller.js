@@ -4,13 +4,16 @@ const { HttpError } = require("../helper");
 const { Contacts } = require("../models/");
 
 const getList = async (req, res, next) => {
-  const contacts = await Contacts.find();
+  const {_id:owner} = req.user;
+
+  const contacts = await Contacts.find({owner});
   res.json(contacts);
 };
 
 const getContactsbyId = async (req, res, next) => {
   const { id } = req.params;
-  const contact = await Contacts.findById(id);
+  const {_id:owner} = req.user;
+  const contact = await Contacts.findOne({_id:id, owner});
   if (!contact) {
     throw HttpError(404);
   }
@@ -33,7 +36,8 @@ const delContacts = async (req, res, next) => {
 
 const updateContacts = async (req, res, next) => {
   const { id } = req.params;
-  const contact = await Contacts.findByIdAndUpdate(id, req.body, { new: true }, 'favorite');
+  const {_id:owner} = req.user;
+    const contact = await Contacts.updateOne({_id:id, owner}, req.body, { new: true }, 'favorite');
   if (!contact) {
     throw HttpError(404);
   }

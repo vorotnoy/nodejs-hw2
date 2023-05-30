@@ -4,11 +4,12 @@ const {
   contactsAddSchema,
   contactsUppdateFavoriteSchema,
 } = require("../../schemas/index");
+const authenticate = require('../../helper/handleMongooseError')
 
 const { validateBody, validateFavoriteBody } = require("../../utils/index");
 const { isValidId } = require("../../middlewares");
 const contactsController = require("../../controller/contact-controller");
-
+router.use(authenticate)
 router.get("/", contactsController.getList);
 
 router.get("/:id", isValidId, contactsController.getContactsbyId);
