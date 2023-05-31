@@ -20,10 +20,11 @@ const register = async (req, res, next) => {
     email,
     subscription,
   });
-  res.status(201).json({
+  res.status(201).json(
+ { "user": {
     email: newUser.email,
     subscription: newUser.subscription,
-  });
+  }})
 };
 
 const login = async (req, res, next) => {
