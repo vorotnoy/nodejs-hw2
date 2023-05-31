@@ -1,11 +1,10 @@
 const { ctrlWrapper } = require("../utils/index");
 const contactChange = require("../models/operation");
 const { HttpError } = require("../helper");
-const { Contacts } = require("../models/");
+const { Contacts, User } = require("../models/");
 
 const getList = async (req, res, next) => {
   const {_id:owner} = req.user;
-
   const contacts = await Contacts.find({owner});
   res.json(contacts);
 };
@@ -22,15 +21,15 @@ const getContactsbyId = async (req, res, next) => {
 
 const addContacts = async (req, res, next) => {
   const {_id: owner} = req.user
-
   const newContact = await Contacts.create({...req.body, owner});
   res.status(201).json(newContact);
 };
 
 const delContacts = async (req, res, next) => {
   const { id } = req.params;
-  const removeContacts = await Contacts.findByIdAndDelete(id);
-  if (!removeContacts) {
+  const {_id:owner} = req.user;
+  const removeContacts = await Contacts.deleteOne({_id:id, owner});
+  if (removeContacts.deletedCount===0) {
     throw HttpError(404);
   }
   res.json({ message: "contact deleted" });
@@ -39,19 +38,22 @@ const delContacts = async (req, res, next) => {
 const updateContacts = async (req, res, next) => {
   const { id } = req.params;
   const {_id:owner} = req.user;
-    const contact = await Contacts.updateOne({_id:id, owner}, req.body, { new: true }, 'favorite');
-  if (!contact) {
+    const contactUp = await Contacts.updateOne({_id:id, owner}, req.body, { new: true }, 'favorite');
+  if (contactUp.modifiedCount===0) {
     throw HttpError(404);
   }
+  const contact = await User.findById(id)
   res.json(contact);
 };
 
 const updateFavorite = async (req, res, next) => {
   const { id } = req.params;
-  const contact = await Contacts.findByIdAndUpdate(id, req.body, { new: true });
-  if (!contact) {
+  const {_id:owner} = req.user;
+  const contactUp = await Contacts.updateOne({_id:id, owner}, req.body, { new: true }, 'favorite');
+  if (!contactUp) {
     throw HttpError(404);
   }
+  const contact = await User.findById(id)
   res.json(contact);
 };
 
