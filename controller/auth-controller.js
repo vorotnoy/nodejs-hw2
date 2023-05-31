@@ -3,8 +3,7 @@ const { ctrlWrapper } = require("../utils/index");
 const { HttpError } = require("../helper");
 const { User } = require("../models");
 const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken');
-
+const jwt = require("jsonwebtoken");
 
 const register = async (req, res, next) => {
   const { password, email, subscription } = req.body;
@@ -30,6 +29,7 @@ const register = async (req, res, next) => {
 const login = async (req, res, next) => {
   const { password, email } = req.body;
   const user = await User.findOne({ email });
+
   if (!user) {
     throw HttpError(401, "Email or password is wrong");
   }
@@ -41,8 +41,8 @@ const login = async (req, res, next) => {
   const payload = {
     id: user._id,
   };
-  const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "10h" });
 
+  const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "10h" });
   await User.findByIdAndUpdate(user._id, { token });
   res.json({
     token,
@@ -74,10 +74,10 @@ const updateById = async (req, res) => {
 const getCurrent = async (req, res) => {
   const { email, subscription } = req.user;
   res.json({
-      email,
-      subscription
-  })
-}
+    email,
+    subscription,
+  });
+};
 
 module.exports = {
   register: ctrlWrapper(register),

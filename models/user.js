@@ -20,7 +20,7 @@ const userSchema = Schema({
     type: String,
     default: ''
 }
-});
+}, { versionKey: false, timestamps: false },);
 
 userSchema.post("save", handleMongooseError);
 const User = model("user", userSchema);
