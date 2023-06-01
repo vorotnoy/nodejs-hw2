@@ -5,7 +5,9 @@ const { Contacts, User } = require("../models/");
 
 const getList = async (req, res, next) => {
   const {_id:owner} = req.user;
-  const contacts = await Contacts.find({owner});
+  const {page = 1, limit = 5} = req.query;
+  const skip = (page-1) * limit
+const contacts = await Contacts.find({owner}, skip, limit);
   res.json(contacts);
 };
 
