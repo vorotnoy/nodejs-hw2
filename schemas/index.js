@@ -3,4 +3,12 @@ const {
   contactsUppdateFavoriteSchema,
 } = require("./contacts");
 
-module.exports = { contactsAddSchema, contactsUppdateFavoriteSchema };
+const { userLoginSchema, userRegisterSchema, updateUserSubcriptionSchema } = require("./users");
+
+module.exports = {
+  contactsAddSchema,
+  contactsUppdateFavoriteSchema,
+  userLoginSchema,
+  userRegisterSchema,
+  updateUserSubcriptionSchema
+};
