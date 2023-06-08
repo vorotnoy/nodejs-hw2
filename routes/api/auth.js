@@ -12,6 +12,6 @@ router.post('/login',validateBody(userLoginSchema),  authController.login )
 router.get('/current', authenticate, authController.getCurrent);
 router.post('/logout', authenticate, authController.logout);
 router.patch('/users', authenticate, validateBody(updateUserSubcriptionSchema), authController.updateById);
-router.patch('/avatar',authenticate, upload.single('avatar'), authController.updateAvatar)
+router.patch('/avatars',authenticate, upload.single('avatar'), authController.updateAvatar)
 
 module.exports = router;

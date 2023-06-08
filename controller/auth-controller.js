@@ -8,6 +8,7 @@ const gravatar = require("gravatar");
 const path = require("path");
 const fs = require("fs/promises");
 const Jimp = require("jimp");
+require('dotenv').config()
 
 const avatarDir = path.join("public", "avatars");
 
@@ -54,13 +55,13 @@ const login = async (req, res, next) => {
     id: user._id,
   };
 
-  const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "10h" });
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "10h" });
   await User.findByIdAndUpdate(user._id, { token });
   res.json({
     token,
     user: {
       email: user.email,
-      subsciption: user.subscription,
+      subscription: user.subscription,
     },
   });
 };
