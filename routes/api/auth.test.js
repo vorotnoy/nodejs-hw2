@@ -32,7 +32,6 @@ describe("test auth_login router", ()=>{
 
         const response = await request(app).post('/users/login').send(loginData);
         expect(response.statusCode).toBe(200)
-        // console.log(response.body.user)
         expect(response.body.token).toBeDefined();
         expect(response.body.user.email).toBeDefined();
         expect(response.body.user.subscription).toBeDefined();
