@@ -1,16 +1,32 @@
 const Joi = require("joi");
 
-const userRegisterSchema = Joi.object({
+const userRegister = Joi.object({
   email: Joi.string().email().required().label("email"),
   password: Joi.string().trim().required().label("password"),
   //   subscription:Joi.string().label("subscription"),
 });
 
-const userLoginSchema = Joi.object({
+const userLogin = Joi.object({
   email: Joi.string().email().required().label("email"),
   password: Joi.string().trim().required().label("password"),
 });
-const updateUserSubcriptionSchema = Joi.object({
-  subscription: Joi.string().trim().valid('starter', 'pro', 'business').required()
+const updateUserSubcription = Joi.object({
+  subscription: Joi.string()
+    .trim()
+    .valid("starter", "pro", "business")
+    .required(),
+});
+
+const email=Joi.object({
+  email: Joi.string().email().required().label("email"),
 })
-module.exports = { userRegisterSchema, userLoginSchema, updateUserSubcriptionSchema};
+
+const userSchema = {
+  userRegister,
+  userLogin,
+  updateUserSubcription,
+  email,
+};
+module.exports = {
+  userSchema
+};
